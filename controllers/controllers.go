@@ -14,6 +14,13 @@ func ExibeTodosOsAlunos(c *gin.Context) {
 	c.JSON(200, alunos) // 200 = resposta de sucesso
 }
 
+func Saudacao(c *gin.Context) {
+	nome := c.Params.ByName("nome")
+	c.JSON(200, gin.H{
+		"API diz:": "E aí " + nome + ", tudo beleza?",
+	})
+}
+
 func CriaNovoAluno(c *gin.Context) {
 	var aluno models.Aluno
 	if err := c.ShouldBindJSON(&aluno); err != nil {
@@ -21,6 +28,7 @@ func CriaNovoAluno(c *gin.Context) {
 			"error": err.Error()})
 		return
 	}
+
 	if err := models.ValidaDadosDeAluno(&aluno); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error()})
