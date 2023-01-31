@@ -6,8 +6,19 @@ import (
 	"github.com/BruggerPedro/gin-api-rest/database"
 	"github.com/BruggerPedro/gin-api-rest/models"
 	"github.com/gin-gonic/gin"
+	_ "github.com/swaggo/swag/example/celler/httputil"
 )
 
+// ExibeTodosOsAlunos godoc
+//
+//	@Summary		Exibe todos os alunos
+//	@Description	Rota para exibir todos os alunos
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.Aluno
+//	@Failure		400	{object}	httputil.HTTPError
+//	@Router			/alunos [get]
 func ExibeTodosOsAlunos(c *gin.Context) {
 	var alunos []models.Aluno
 	database.DB.Find(&alunos)
@@ -21,6 +32,17 @@ func Saudacao(c *gin.Context) {
 	})
 }
 
+// CriaNovoAluno godoc
+//
+//	@Summary		Cadastra novo aluno
+//	@Description	Rota para cadastrar aluno
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Param			alunos	body	models.Aluno	true	"Modelo do aluno"
+//	@Success		200	{object}	models.Aluno
+//	@Failure		400	{object}	httputil.HTTPError
+//	@Router			/alunos [post]
 func CriaNovoAluno(c *gin.Context) {
 	var aluno models.Aluno
 	if err := c.ShouldBindJSON(&aluno); err != nil {
@@ -38,6 +60,17 @@ func CriaNovoAluno(c *gin.Context) {
 	c.JSON(http.StatusOK, aluno)
 }
 
+// BuscaAlunoPorID godoc
+//
+//	@Summary		Exibe aluno pelo id
+//	@Description	Rota para exibir aluno pelo id
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int		true	"ID aluno" Format(int64)
+//	@Success		200		{object}	models.Aluno
+//	@Failure		404		{object}	httputil.HTTPError
+//	@Router			/alunos/{id} [get]
 func BuscaAlunoPorID(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
@@ -51,6 +84,18 @@ func BuscaAlunoPorID(c *gin.Context) {
 	c.JSON(http.StatusOK, aluno)
 }
 
+// DeletaAluno godoc
+//
+//	@Summary		Deleta aluno
+//	@Description	Rota para deletar aluno
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int		true	"ID aluno" Format(int64)
+//	@Success		200	{object}	models.Aluno
+//	@Failure		404	{object}	httputil.HTTPError
+//	@Failure		500	{object}	httputil.HTTPError
+//	@Router			/alunos/{id} [delete]
 func DeletaAluno(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
@@ -65,6 +110,19 @@ func DeletaAluno(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": "Aluno deletado."})
 }
 
+// EditaAluno godoc
+//
+//	@Summary		Edita aluno
+//	@Description	Rota para editar aluno
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int			true	"ID aluno"	Format(int64)
+//	@Param			alunos	body	models.Aluno	true	"Modelo do aluno"
+//	@Success		200	{object}	models.Aluno
+//	@Failure		400	{object}	httputil.HTTPError
+//	@Failure		404	{object}	httputil.HTTPError
+//	@Router			/alunos/{id} [patch]
 func EditaAluno(c *gin.Context) {
 	var aluno models.Aluno
 	id := c.Params.ByName("id")
@@ -89,6 +147,18 @@ func EditaAluno(c *gin.Context) {
 	c.JSON(http.StatusOK, aluno)
 }
 
+// BuscaAlunoPorCPF godoc
+//
+//	@Summary		Exibe aluno pelo cpf
+//	@Description	Rota para exibir aluno pelo cpf
+//	@Tags			alunos
+//	@Accept			json
+//	@Produce		json
+//	@Param			cpf	path	string	true	"CPF do aluno"
+//	@Success		200	{object}	models.Aluno
+//	@Failure		400	{object}	httputil.HTTPError
+//	@Failure		404	{object}	httputil.HTTPError
+//	@Router			/alunos/cpf/{cpf} [get]
 func BuscaAlunoPorCPF(c *gin.Context) {
 	var aluno models.Aluno
 	cpf := c.Param("cpf")
@@ -109,5 +179,5 @@ func ExibePaginaIndex(c *gin.Context) {
 }
 
 func RotaNaoEncontrada(c *gin.Context) {
-	c.HTML(http.StatusNotFound, "404.html",nil)
+	c.HTML(http.StatusNotFound, "404.html", nil)
 }
