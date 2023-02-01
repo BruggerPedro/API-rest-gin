@@ -1,9 +1,12 @@
 package database
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/BruggerPedro/gin-api-rest/models"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -14,7 +17,17 @@ var (
 )
 
 func ConnectDB() {
-	stringDeConexao := "host=localhost user=root password=root dbname=postgres port=5436 sslmode=disable"
+	error := godotenv.Load("local.env")
+	if error != nil {
+		log.Fatal("Error loading .env file")
+	}
+	host := os.Getenv("HOST")
+	user_dbpost := os.Getenv("USER_DBPOST")
+	password := os.Getenv("PASSWORD")
+	dbname := os.Getenv("DBNAME")
+	port := os.Getenv("PORT")
+
+	stringDeConexao := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", host, user_dbpost, password, dbname, port)
 	DB, err = gorm.Open(postgres.Open(stringDeConexao))
 	if err != nil {
 		log.Panic("Erro ao conectar com o banco de dados.")

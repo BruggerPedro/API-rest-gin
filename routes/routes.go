@@ -24,5 +24,5 @@ func HandleRequests() {
 	r.GET("/index", controllers.ExibePaginaIndex)
 	r.NoRoute(controllers.RotaNaoEncontrada)
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
-	r.Run() //Caso queira rodar em outra por que não seja a padrão(:8080), é só colocar como primeiro argumento ":5000"
+	r.Run(":7000") //Caso queira rodar em outra por que não seja a padrão(:8080), é só colocar como primeiro argumento ":5000"
 }

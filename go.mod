@@ -5,6 +5,7 @@ go 1.19
 require gorm.io/driver/postgres v1.4.6
 
 require (
+	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/swaggo/files v1.0.0 // indirect
 	github.com/swaggo/gin-swagger v1.5.3 // indirect
 )
